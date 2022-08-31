@@ -1,0 +1,109 @@
+<div class="user-manager-container manager-container">
+    <div class="table-top-content">
+        <div class="table-details">
+            <div class="table-details-name">Users</div>
+            <div class="table-details-quantity">{{usersLength}} users</div>
+        </div>
+        <!-- <div>
+            <form [formGroup] = "searchForm" class="form-control-group">
+                <input type="text" formControlName="searchString" class="form-control" placeholder="Search for movie">
+            </form>
+        </div> -->
+        <button class="btn" (click)="toggleAddUserForm()">+ Add User</button>
+    </div>
+    <div class="user-manager-table-container">
+        <form [formGroup]="editForm" class="edit-form" novalidate>
+            <table class="user-table">
+                <tr class="table-headers">
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Permissions</th>
+                    <th>Actions</th>
+                </tr>
+                <tr  *ngIf="usersLength === 0">
+                    <div style="display: flex; justify-content: center;">
+                        <div style="color: white;">No users. Try adding a user.</div>
+                    </div>
+                </tr>
+                <tr *ngFor="let user of users | paginate: {itemsPerPage: 10, currentPage: p}; let i = index">
+                    <td>{{i+1+(p-1)*10}}</td>
+                    <td *ngIf="!toggleEdit[i]">{{user.username}}</td>
+                    <td *ngIf="toggleEdit[i]">
+                        <div>
+                            <span [hidden]="!editForm.controls['username'].errors?.['required']">*</span><input  type="email" formControlName="username" placeholder={{user.username}} class="form-control">
+                        </div>
+                        <!-- <input *ngIf="editForm.controls['username'].errors?.['required']" type="email" formControlName="username" placeholder={{user.username}} class="form-control empty"> -->
+                    </td>
+                    <td *ngIf="!toggleEdit[i]">{{user.permissions}}</td>
+                    <td *ngIf="toggleEdit[i]">
+                        <input type="text" formControlName="permissions" placeholder={{user.permissions}} class="form-control">
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <i *ngIf="!toggleEdit[i]" class="bi bi-pencil" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="addEditUserForm(user, i)"></i>
+                            <i *ngIf="toggleEdit[i]" class="bi bi-check-lg" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="submitUserEdits(user, i)"></i>
+                            <i class="bi bi-trash3" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="deleteUser(user)"></i>
+                            
+                            <!-- <img *ngIf="!toggleEdit[i]" src="../../../assets/images/edit.png" (click)="addEditUserForm(user, i)"> -->
+                            <!-- <img *ngIf="toggleEdit[i]"  src="../../../assets/images/check.png" (click)="submitUserEdits(user, i)"> -->
+                            <!-- <img src="../../../assets/images/delete.png" (click)="deleteUser(user)"> -->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <pagination-controls class="movie-pagination-controls" (pageChange)="p = $event"></pagination-controls>
+
+
+    <div class="new-user-form-background" *ngIf="!addFormHidden">
+        <div class="new-user-form">
+            <!-- close button -->
+            <img src="../../../assets/images/close.png" (click)="toggleAddUserForm()">
+            <form (keyup.enter)="addNewUser()" [formGroup]="addForm" novalidate>
+                <div class="form-control-group">
+                    <label>Email:</label>
+                    <input type="email" formControlName="username" class="form-control">
+                    <div *ngIf="!addForm.controls['username'].valid && addForm.controls['username'].touched || addForm.controls['username'].dirty">
+                        <div [hidden]="!addForm.controls['username'].errors?.['required']" style="color: red;">
+                            Email is required
+                        </div>
+                        <div [hidden]="!addForm.controls['username'].errors?.['email']" style="color: red;">
+                            Not valid email address
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Password:</label>
+                    <input formControlName="password" type="password" class="form-control">
+                    <div *ngIf="!addForm.controls['password'].valid && addForm.controls['password'].touched || addForm.controls['password'].dirty">
+                        <div [hidden]="!addForm.controls['password'].errors?.['required']" style="color: red;">
+                            Password is required
+                        </div>
+                        <div [hidden]="!addForm.controls['password'].errors?.['pattern']" style="color: red;">
+                            Password requires at least 1 uppercase, 1 lowercase, 1 number, 1 special character
+                        </div>
+                        <div [hidden]="!addForm.controls['password'].errors?.['minlength']" style="color: red;">
+                            Minimum password length of 8
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="permisisons">Permissions:</label>
+                    <select formControlName="permissions" class="form-select form-select-large mb-3" id="permissions" >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <div *ngIf="!addForm.controls['permissions'].valid && addForm.controls['permissions'].touched || addForm.controls['permissions'].dirty">
+                        <div [hidden]="!addForm.controls['permissions'].errors?.['required']" style="color: red;">
+                            Permissions is required
+                        </div>
+                    </div>
+                </div>
+                <!-- submit button -->
+                <button class="btn btn-success" (click)="addNewUser()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>

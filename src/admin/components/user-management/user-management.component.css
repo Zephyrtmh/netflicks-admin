@@ -1,0 +1,174 @@
+@import url("../../admin.module.css");
+
+.user-manager-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+}
+
+.user-manager {
+    width: 1000px;
+    margin-top: 50px;
+}
+
+.user-manager-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(53, 53, 53, 1);
+    color: white;
+    height: 50px;
+    width: 400px;
+}
+
+.table-top-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    background-color: rgb(181, 181, 255);
+    padding: 10px 20px 10px 20px;
+}
+
+.table-top-content > button {
+    background-color: rgb(232,74,95);
+    color: white;
+    padding: 4px 10px 6px 10px;
+    height: 40px;
+    width: 120px;
+}
+
+.table-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width:  200px;
+}
+
+.table-details-quantity {
+    background-color: aliceblue;
+    font-size:small;
+    padding: 0 10px 0 10px;
+    border-radius: 20px;
+}
+
+.table-details-name {
+    font-size: 1.5rem;
+}
+
+.user-manager-table-container {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(53, 53, 53, 1);
+    color: white;
+    width: 1200px;
+    height: 55vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+
+.admin-dashboard button {
+    background-color: rgb(232,74,95);
+    color: white;
+    padding: 4px 10px 6px 10px;
+    margin-top: 5vh;
+    float: right;
+}
+
+.user-table {
+    width: 1200px;
+    margin-top: 20px;
+}
+
+tr {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-table th, td {
+    width: 250px;
+    padding-bottom: 2em;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100px;
+}
+
+.actions > img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.actions > i:hover {
+    cursor: pointer;
+}
+
+.movie-pagination-controls {
+    margin-top: 10px;
+    color: white;
+}
+
+.new-user-form {
+    position: absolute;
+    z-index: 1;
+    height: 420px;
+    width: 450px;
+    background-color: #fefefe;
+    padding: 20px;
+}
+
+.new-user-form input {
+    width: 100%;
+}
+
+.form-control-group {
+    min-height: 100px;
+}
+
+.empty {
+    border: 1.5px rgb(255, 60, 60) solid;
+}
+
+.new-user-form button {
+    position: relative;
+    width: 150px;
+    margin-top:10px;
+    left: 30%;
+}
+
+.new-user-form img {
+    width:10px;
+    float: right;
+}
+
+.new-user-form form {
+    margin-top: 20px;
+}
+
+.new-user-form img:hover {
+    cursor: pointer;
+}
+
+.new-user-form-background {
+    position: absolute;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding: 20px;
+}
+
+.edit-form input {
+    width: 200px;
+}

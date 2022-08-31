@@ -1,0 +1,123 @@
+<div class="movie-manager-container manager-container">
+    <div class="table-top-content">
+        <div class="table-details">
+            <div class="table-details-name">Movies</div>
+            <div class="table-details-quantity">{{moviesLength}} movies</div>
+        </div>
+        <div>
+            <form [formGroup] = "searchForm" class="form-control-group search-form" (keydown.enter)="submitMovieSearch()">
+                <input type="text" formControlName="searchString" class="form-control" placeholder="Search for movie">
+            </form>
+        </div>
+        <button class="btn" (click)="toggleAddMovieForm()">+ Add Movie</button>
+    </div>
+    <div class="movie-manager-table-container">
+        
+        <form [formGroup]="editForm" class="edit-form">
+            <table class="movie-manager-table">
+                <tr class="table-headers">
+                    <th>Id</th>
+                    <th>Movie Name</th>
+                    <th>Rental Cost</th>
+                    <th>Year of Release</th>
+                    <th>Image Url</th>
+                    <th>Action</th>
+                </tr>
+                <tr  *ngIf="moviesLength === 0">
+                    <div style="display: flex; justify-content: center;">
+                        <div style="color: white;">No movies</div>
+                    </div>
+                </tr>
+                <tr *ngFor="let movie of movies| filter:searchForm.controls['searchString'].value | paginate: {itemsPerPage: 10, currentPage: p} ; let i = index" >
+                    <td (click)="openMoviePage(movie.movieId)">{{i+1+(p-1)*10}}</td>
+                    <td *ngIf="!toggleEdit[i]" (click)="openMoviePage(movie.movieId)">{{movie.movieName}}</td>
+                    <td *ngIf="toggleEdit[i]"><input type="text" formControlName="movieName" placeholder={{movie.movieName}}></td>
+                    <td *ngIf="!toggleEdit[i]" (click)="openMoviePage(movie.movieId)">{{movie.rentalCost | currency}}</td>
+                    <td *ngIf="toggleEdit[i]"><input type="text" formControlName="rentalCost" placeholder={{movie.rentalCost}}></td>
+                    <td *ngIf="!toggleEdit[i]" (click)="openMoviePage(movie.movieId)">{{movie.yearOfRelease}}</td>
+                    <td *ngIf="toggleEdit[i]"><input type="text" formControlName="yearOfRelease" placeholder={{movie.yearOfRelease}}></td>
+                    <td *ngIf="!toggleEdit[i]" (click)="openMoviePage(movie.movieId)">{{movie.imgUrl}}</td>
+                    <td *ngIf="toggleEdit[i]"><input type="text" formControlName="imgUrl" placeholder={{movie.imgUrl}}></td>
+                    <td style="display: flex;  justify-content: space-around;">
+                        <div class="actions">
+                            <i *ngIf="!toggleEdit[i]" class="bi bi-pencil" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="addEditUserForm(movie, i)"></i>
+                            <i *ngIf="toggleEdit[i]" class="bi bi-check-lg" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="submitUserEdits(movie, i)"></i>
+                            <i class="bi bi-trash3" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="deleteMovie(movie)"></i>
+                            <!-- <img *ngIf="!toggleEdit[i]" src="../../../assets/images/edit.png" (click)="addEditUserForm(movie, i)">
+                            <img *ngIf="toggleEdit[i]"  src="../../../assets/images/check.png" (click)="submitUserEdits(movie, i)">
+                            <img src="../../../assets/images/delete.png" (click)="deleteMovie(movie)"> -->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <pagination-controls class="movie-pagination-controls" (pageChange)="p = $event"></pagination-controls>
+    
+    <div class="new-movie-form-background" *ngIf="!addFormHidden">
+        <div class="new-movie-form">
+            <img src="../../../assets/images/close.png" (click)="toggleAddMovieForm()">
+            <form (keyup.enter)="addNewMovie()" [formGroup]="addForm">
+                <div class="form-control-group">
+                    <label for="movie-name">Movie Name:</label>
+                    <input formControlName="movieName" class="form-control" id="movie-name">
+                    <div class="errors" *ngIf="(!addForm.controls['movieName'].valid && (addForm.controls['movieName'].touched || addForm.controls['movieName'].dirty)) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['movieName'].errors?.['required']" style="color: red;">
+                            Movie name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="rental-cost">Rental Cost:</label>
+                    <input formControlName="rentalCost" class="form-control" id="rental-cost">
+                    <div class="errors" *ngIf="(!addForm.controls['rentalCost'].valid && addForm.controls['rentalCost'].touched || addForm.controls['rentalCost'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['rentalCost'].errors?.['required']" style="color: red;">
+                            Rental Cost is required
+                        </div>
+                        <div [hidden]="!addForm.controls['rentalCost'].errors?.['pattern']" style="color: red;">
+                            Invalid format for rental cost (dd.cc)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="yor">Year of Release:</label>
+                    <input formControlName="yearOfRelease" class="form-control" id="yor">
+                    <div class="errors" *ngIf="(!addForm.controls['yearOfRelease'].valid && addForm.controls['yearOfRelease'].touched || addForm.controls['yearOfRelease'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['yearOfRelease'].errors?.['required']" style="color: red;">
+                            Year of Release is required
+                        </div>
+                        <div [hidden]="!addForm.controls['yearOfRelease'].errors?.['max']" style="color: red;">
+                            Year of release can't be > 2022
+                        </div>
+                        <div [hidden]="!addForm.controls['yearOfRelease'].errors?.['min']" style="color: red;">
+                            Year of release can't be < 1900
+                        </div>
+                        <div [hidden]="!addForm.controls['yearOfRelease'].errors?.['pattern']" style="color: red;">
+                            Invalid year format
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="imgUrl">Image Url:</label>
+                    <input formControlName="imgUrl" class="form-control" id="imgUrl">
+                    <div class="errors" *ngIf="(!addForm.controls['imgUrl'].valid && addForm.controls['imgUrl'].touched || addForm.controls['imgUrl'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['imgUrl'].errors?.['required']" style="color: red;">
+                            Img Url required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="actors">Actors:</label>
+                    <select formControlName="actors" class="form-select" id="actors" multiple aria-label="multiple select example">
+                        <option *ngFor="let actor of actors" [ngValue]="actor">{{actor.actorFirstName}} {{actor.actorLastName}}</option>
+                    </select>
+                    <div class="errors" *ngIf="!addForm.controls['actors'].valid && addForm.controls['actors'].touched || addForm.controls['actors'].dirty">
+                    </div>
+                </div>
+                
+                
+                <button class="btn btn-success" (click)="addNewMovie()">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

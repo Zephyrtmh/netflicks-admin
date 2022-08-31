@@ -1,0 +1,13 @@
+<div class="movie-card-container">
+    <div class="movie-card" (click)="openMoviePage()">
+        <img src="{{movie.imgUrl}}">
+        <div class="movie-card-details">
+            <div>
+                <p>Movie Title: {{movie.movieName}}</p>
+                <p>Year of Release: {{movie.yearOfRelease}}</p>
+                <p>Rental Cost {{movie.rentalCost | currency}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,44 @@
+p {
+    color: white;
+}
+
+.movie-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-card {
+    position: relative;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    /* align-items: center; */
+    background-color: rgb(146, 146, 146);
+    width: 200px;
+    height: 250px;
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+img {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.movie-card:hover .movie-card-details {
+    height: 70%;
+}
+
+.movie-card-details {
+    position: absolute;
+    align-self: flex-end;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.50) 80%, rgba(0,0,0,0) 100%);
+    width: 200px;
+    height: 0;
+    transition: 0.2s ease;
+    padding: 20px 0 0 10px;
+    
+}

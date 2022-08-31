@@ -1,0 +1,190 @@
+<div class="actor-manager-container manager-container">
+    <div class="table-top-content">
+        <div class="table-details">
+            <div class="table-details-name">Actors</div>
+            <div class="table-details-quantity">{{actorsLength}} actors</div>
+        </div>
+        <button class="btn" (click)="toggleAddActorForm()">+ Add Actor</button>
+    </div>
+    <div class="actor-manager-table-container">
+        
+        <form [formGroup]="editForm" class="edit-form">
+            <table class="actor-manager-table">
+                <tr class="table-headers">
+                    <th>Index</th>
+                    <th>Actor Firstname</th>
+                    <th>Actor Lastname</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Action</th>
+                </tr>
+                <tr *ngFor="let actor of actors | paginate: {itemsPerPage: 10, currentPage: p}; let i = index">
+                    <td (click) = "openActorPage(actor.actorId)">{{i+1+(p-1)*10}}</td>
+                    <td (click) = "openActorPage(actor.actorId)">{{actor.actorFirstName}}</td>
+                    <td (click) = "openActorPage(actor.actorId)">{{actor.actorLastName}}</td>
+                    <td (click) = "openActorPage(actor.actorId)">{{actor.gender}}</td>
+                    <td (click) = "openActorPage(actor.actorId)">{{actor.age}}</td>
+                    <td>
+                        <div class="actions">
+                            <i class="bi bi-plus-lg" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="toggleAddExistingActorForm(actor)"></i>
+                            <i *ngIf="!toggleEdit[i]" class="bi bi-pencil" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="toggleEditActorForm(actor, i)"></i>
+                            <i class="bi bi-trash3" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="deleteActor(actor)"></i>
+                            <!-- <img *ngIf="!toggleEdit[i]" src="../../../assets/images/edit.png" (click)="toggleEditActorForm(actor, i)">
+                            <img *ngIf="toggleEdit[i]"  src="../../../assets/images/check.png" (click)="submitUserEdits(actor, i)">
+                            <img src="../../../assets/images/delete.png" (click)="deleteActor(actor)"> -->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <pagination-controls class="actor-pagination-controls" (pageChange)="p = $event"></pagination-controls>
+    
+    <div class="new-actor-form-background" *ngIf="!addFormHidden">
+        <div class="new-actor-form-container">
+            <img src="../../../assets/images/close.png" (click)="toggleAddActorForm()">
+            <form (keyup.enter)="addNewActor()" [formGroup]="addForm" class="form-control-group new-form">
+                <div class="form-control-group">
+                    <label for="movie">Movie Name:</label>
+                    <select formControlName="movie" class="form-select" id="movies" >
+                        <option selected value="">Choose a movie</option>
+                        <option *ngFor="let movie of movies" [ngValue]="movie">{{movie.movieName}}</option>
+                    </select>
+                    <div class="errors" *ngIf="(!addForm.controls['movie'].valid && addForm.controls['movie'].touched || addForm.controls['movie'].dirty)">
+                        <div [hidden]="!addForm.controls['movie'].errors?.['required']" style="color: red;">
+                            Movie name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Actor firstname</label>
+                    <input formControlName="actorFirstName" class="form-control">
+                    <div class="errors" *ngIf="(!addForm.controls['actorFirstName'].valid && addForm.controls['actorFirstName'].touched || addForm.controls['actorFirstName'].dirty)">
+                        <div [hidden]="!addForm.controls['actorFirstName'].errors?.['required']" style="color: red;">
+                            Actor Firstname is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Actor lastname:</label>
+                    <input formControlName="actorLastName" class="form-control">
+                    <div class="errors" *ngIf="(!addForm.controls['actorLastName'].valid && addForm.controls['actorLastName'].touched || addForm.controls['actorLastName'].dirty)">
+                        <div [hidden]="!addForm.controls['actorLastName'].errors?.['required']" style="color: red;">
+                            Actor Lastname is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Gender</label>
+                    <input formControlName="gender" class="form-control">
+                    <div class="errors" *ngIf="(!addForm.controls['gender'].valid && addForm.controls['gender'].touched || addForm.controls['gender'].dirty)">
+                        <div [hidden]="!addForm.controls['gender'].errors?.['required']" style="color: red;">
+                            Gender is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Age:</label>
+                    <input formControlName="age" type="text" class="form-control">
+                    <div class="errors" *ngIf="(!addForm.controls['age'].valid && addForm.controls['age'].touched || addForm.controls['age'].dirty)">
+                        <div [hidden]="!addForm.controls['age'].errors?.['required']" style="color: red;">
+                            Age is required
+                        </div>
+                        <div [hidden]="!addForm.controls['age'].errors?.['max']" style="color: red;">
+                            Age cannot be > 120
+                        </div>
+                        <div [hidden]="!addForm.controls['age'].errors?.['min']" style="color: red;">
+                            Age cannot be < 1
+                        </div>
+                        <div [hidden]="!addForm.controls['age'].errors?.['pattern']" style="color: red;">
+                            Invalid Age
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" (click)="addNewActor()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="edit-actor-form-background" *ngIf="!editFormHidden">
+        <div class="edit-actor-form-container">
+            <img src="../../../assets/images/close.png" (click)="toggleEditActorForm()">
+            <form (keyup.enter)="saveEditedActor()" [formGroup]="editForm" class="form-control-group edit-form">
+                <div class="form-control-group">
+                    <label>Actor firstname:</label>
+                    <input formControlName="actorFirstName" class="form-control">
+                    <div class="errors" *ngIf="(!editForm.controls['actorFirstName'].valid && editForm.controls['actorFirstName'].touched || editForm.controls['actorFirstName'].dirty)">
+                        <div [hidden]="!editForm.controls['actorFirstName'].errors?.['required']" style="color: red;">
+                            Actor firstname is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Actor lastname:</label>
+                    <input formControlName="actorLastName" class="form-control">
+                    <div class="errors" *ngIf="(!editForm.controls['actorLastName'].valid && editForm.controls['actorLastName'].touched || editForm.controls['actorLastName'].dirty)">
+                        <div [hidden]="!editForm.controls['actorLastName'].errors?.['required']" style="color: red;">
+                            Actor lastname is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Gender:</label>
+                    <input formControlName="gender" class="form-control">
+                    <div class="errors" *ngIf="(!editForm.controls['gender'].valid && editForm.controls['gender'].touched || editForm.controls['gender'].dirty)">
+                        <div [hidden]="!editForm.controls['gender'].errors?.['required']" style="color: red;">
+                            Gender is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Age:</label>
+                    <input formControlName="age" type="text" class="form-control">
+                    <div class="errors" *ngIf="(!editForm.controls['age'].valid && editForm.controls['age'].touched || editForm.controls['age'].dirty)">
+                        <div [hidden]="!editForm.controls['age'].errors?.['required']" style="color: red;">
+                            Age is required
+                        </div>
+                        <div [hidden]="!editForm.controls['age'].errors?.['max']" style="color: red;">
+                            Age cannot be > 120
+                        </div>
+                        <div [hidden]="!editForm.controls['age'].errors?.['min']" style="color: red;">
+                            Age cannot be < 1
+                        </div>
+                        <div [hidden]="!editForm.controls['age'].errors?.['pattern']" style="color: red;">
+                            Invalid Age
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" (click)="saveEditedActor()">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="add-existing-actor-form-background" *ngIf="!addExistingActorFormHidden">
+        <div class="add-existing-actor-form-container">
+            <img src="../../../assets/images/close.png" (click)="toggleAddExistingActorForm()">
+            <h1 style="display: inline;">Add Actor <span style="color: red;">{{existingActorToAdd.actorFirstName}} {{existingActorToAdd.actorLastName}}</span> to...</h1>
+            <form (keyup.enter)="addExistingActor()" [formGroup]="addExistingActorForm" class="form-control-group add-existing-actor-form">
+                <div class="form-control-group">
+                    <label for="movie">Movie Name:</label>
+                    <select formControlName="movieName" class="form-select" id="movie" >
+                        <option *ngFor="let movie of movies" [ngValue]="movie">{{movie.movieName}}</option>
+                    </select>
+                    <div class="errors" *ngIf="(!addExistingActorForm.controls['movieName'].valid && addExistingActorForm.controls['movieName'].touched || addExistingActorForm.controls['movieName'].dirty)">
+                        <div [hidden]="!addExistingActorForm.controls['movieName'].errors?.['required']" style="color: red;">
+                            Movie name is required
+                        </div>
+                        <div [hidden]="!actorExistsInMovieError" style="color: red;">
+                            Actor already exists in this movie
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" (click)="addExistingActor()">Save</button>
+            </form>
+        </div>
+    </div>
+    
+</div>

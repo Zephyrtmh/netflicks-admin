@@ -1,0 +1,24 @@
+.home-page-container {
+    /* display: flex;
+    flex-direction: column; */
+    
+    padding: 20px 0 100px 0;
+    background-color: rgba(45, 45, 45, 1);
+}
+
+.home-page-header {
+    display: flex;
+    align-items: center;
+    color: white;
+    height: 100px;
+    padding-left: 50px;
+    
+}
+
+.movies-container {
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr;
+    /* padding: 100px 30px 100px 30px; */
+    /* height: 90vh; */
+}
+

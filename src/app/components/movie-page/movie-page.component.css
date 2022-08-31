@@ -1,0 +1,106 @@
+.movie-page-background {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.movie-page-container {
+    height: 700px;
+    margin-top: 50px;
+    background-color: aliceblue;
+    display: flex;
+    background-color: rgba(53, 53, 53, 1);
+    color: rgb(255, 255, 255);
+}
+
+.movie-image-container > img {
+    /* width: 100%; */
+    height: 700px;
+}
+
+.movie-details-container {
+    display: grid;
+    height: 600px;
+    width: 400px;
+    grid-template-rows: 1fr 2fr 2fr 2fr 2fr;
+    padding: 20px 20px 20px 20px;
+}
+
+.movie-details-header {
+    font-weight: bold;
+}
+
+.review-header:hover {
+    cursor: pointer;
+}
+
+.review-summary {
+    display: flex;
+    justify-content: space-between;
+    /* width: 180px; */
+}
+
+.movie-details-container > div {
+    border-bottom: solid 1px rgba(200, 200, 200, 0.3);
+    padding: 10px 10px 10px 10px;
+}
+
+.movie-name {
+    align-self: start;
+    justify-self: center;
+}
+
+.movie-review:hover {
+    cursor: pointer;
+}
+
+.actors {
+    /* align-self: start; */
+}
+
+.movie-reviews-containers {
+    padding: 10px 10px 10px 10px;
+    overflow-y: scroll;
+    width: 600px;
+    
+}
+.movie-reviews-containers img {
+    width: 10px;
+    float: right;
+    align-self: flex-end;
+}
+
+.back-to-details-button {
+    float: left;
+}
+
+.back-to-details-button:hover {
+    cursor: pointer;
+}
+
+.movie-reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.movie-reviews > h1 {
+    align-self: center;
+    
+}
+
+
+.review {
+    height: auto;
+    width: 100%;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px rgba(200, 200, 200, 0.6);
+    align-self: flex-start;
+    padding-right: 20px;
+}
+
+.review-content {
+    text-align: justify;
+}
+

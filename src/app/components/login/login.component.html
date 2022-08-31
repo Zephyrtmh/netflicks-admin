@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="form-container">
+        <h1>Login</h1>
+        <form class="login-form" [formGroup]="loginForm" (keydown.enter)="onLoginSubmit()">
+            <div class="form-control-group">
+                <label>Email:</label><br>
+                <input type="text" id="username" formControlName="username" class="form-control">
+                <div class="errors" *ngIf="!loginForm.controls['username'].valid && loginForm.controls['username'].touched || loginForm.controls['username'].dirty">
+                    <div [hidden]="!loginForm.controls['username'].errors?.['required']" style="color: red;">
+                        Email is required
+                    </div>
+                    <div [hidden]="!loginForm.controls['username'].errors?.['email']" style="color: red;">
+                        Not valid email address
+                    </div>
+                </div>
+            </div>
+            <div class="form-control-group">
+                <label>Password:</label><br>
+                <input  type="password" formControlName="password" class="form-control">
+                <div class="errors">
+                    <div *ngIf="this.incorrectPassword" style="color:red">
+                        Password Incorrect
+                    </div>
+                    <div class="errors" *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched || loginForm.controls['password'].dirty">
+                        <div [hidden]="!loginForm.controls['password'].errors?.['required']" style="color: red;">
+                            Password is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="form-bottom">
+            <button class="btn btn-success btn-submit" (click) ="onLoginSubmit()">Submit</button>
+            <a style="text-decoration: underline; color:white;" routerLink="../register">Don't have an account? Register</a>
+        </div>
+    </div>
+</div>

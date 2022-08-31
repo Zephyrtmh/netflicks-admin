@@ -1,0 +1,48 @@
+<div class="container">
+    
+    <div class="form-container">
+        <h1 style="align-self: center;">Register</h1>
+        <form class ="register-form" [formGroup] = "registerForm" (ngSubmit)="onRegisterSubmit()">
+            <div class="form-control-group">
+                <label>Email: </label><br>
+                <input type="text" formControlName="username" class="form-control"><br>
+                <div *ngIf="!registerForm.controls['username'].valid && registerForm.controls['username'].dirty">
+                    <div [hidden]="!registerForm.controls['username'].errors?.['required']" style="color: red;">
+                        Username is required
+                    </div>
+                    <div [hidden]="!registerForm.controls['username'].errors?.['email']" style="color: red;">
+                        Invalid email format
+                    </div>
+                </div>
+            </div>
+            <div class="form-control-group">
+                <label>Password:</label><br>
+                <input type="password" formControlName="password" class="form-control"><br>
+                <div *ngIf="!registerForm.controls['password'].valid && registerForm.controls['password'].dirty">
+                    <div [hidden]="!registerForm.controls['password'].errors?.['required']" style="color: red;">
+                        Password is required
+                    </div>
+                    <div [hidden]="!registerForm.controls['password'].errors?.['pattern']" style="color: red;">
+                        Password requires at least 1 uppercase, 1 lowercase, 1 number, 1 special character
+                    </div>
+                    <div [hidden]="!registerForm.controls['password'].errors?.['minlength']" style="color: red;">
+                        Minimum password length of 8
+                    </div>
+                </div>
+            </div>
+            <div class="form-control-group">
+                <label>Repeat Password:</label><br>
+                <input type="password" formControlName="passwordRepeat" class="form-control">
+                <div *ngIf="!checkPassword()" style="color:red; margin-top:10px;">
+                    Passwords do not match
+                </div>
+            </div>
+        </form>
+        <div class="form-bottom">
+            <button class="btn btn-success btn-submit" (click) ="onRegisterSubmit()">Submit</button>
+            <a style="text-decoration: underline; color:white;" routerLink="../login">already have an account? Login</a>
+        </div>
+        
+    </div>
+    
+</div>

@@ -1,0 +1,35 @@
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    background-color: rgb(40, 40, 40);
+    font-size: 1.4em;
+    color: rgb(232,74,95);
+}
+
+.header-nav-bar {
+    display: inline-flex;
+    list-style-type: none;
+    margin: none;
+    padding: none;
+}
+
+.header-nav-bar li {
+    margin-left:50px;
+    align-self: center;
+}
+
+li:hover {
+    cursor: pointer;
+}
+
+select {
+    border: 0px solid transparent;
+    background-color: rgb(42, 42, 42);
+    color:rgb(232,74,95);
+}
+
+#logo {
+    height: 5vh;
+}

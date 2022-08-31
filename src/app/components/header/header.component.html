@@ -1,0 +1,14 @@
+<div class="header-container">
+        <img id="logo" src="../../../assets/images/netflicks_logo.png" routerLink="home">
+        <ul class="header-nav-bar">
+            <li routerLink="home">Home</li>
+            <li routerLink="admin">Admin</li>
+            <li *ngIf="ifLoggedIn()">
+                <select (change)="logout()">
+                    <option selected>Account</option>
+                    <option value="logout">Logout</option>
+                </select>
+            </li>
+            <li *ngIf="!ifLoggedIn()" routerLink="login">Login</li>
+        </ul>
+</div>

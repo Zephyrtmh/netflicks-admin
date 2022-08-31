@@ -1,0 +1,159 @@
+<div class="review-manager-container manager-container">
+    <div class="table-top-content">
+        <div class="table-details">
+            <div class="table-details-name">Reviews</div>
+            <div class="table-details-quantity">{{reviewsLength}} reviews</div>
+        </div>
+        <button class="btn" (click)="toggleAddReviewForm()">+ Add Review</button>
+    </div>
+    <div class="review-manager-table-container">
+        
+        <form [formGroup]="editForm" class="edit-form">
+            <table class="review-manager-table">
+                <tr class="table-headers">
+                    <th>Id</th>
+                    <th>Review Author</th>
+                    <th>Date of Review</th>
+                    <th>Ratings</th>
+                    <th>Review Content</th>
+                    <th>Action</th>
+                </tr>
+                <tr *ngFor="let review of reviews | paginate: {itemsPerPage: 10, currentPage: p}; let i = index">
+                    
+                    <td (click) = "openMoviePage(review)">{{i+1+(p-1)*10}}</td>
+                    <td (click) = "openMoviePage(review)">{{review.reviewAuthor}}</td>
+                    <td (click) = "openMoviePage(review)">{{review.dateOfReview | date: 'dd MMM yyyy'}}</td>
+                    <td (click) = "openMoviePage(review)">{{review.rating}}</td>
+                    <td (click) = "openMoviePage(review)">{{review.reviewContent}}</td>
+                    <td>
+                        <div class="actions">
+                            <i *ngIf="!toggleEdit[i]" class="bi bi-pencil" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="toggleEditReviewForm(review, i)"></i>
+                            <i *ngIf="toggleEdit[i]" class="bi bi-check-lg" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="toggleEditReviewForm(review, i)"></i>
+                            <i class="bi bi-trash3" style="font-size: 1.1rem; color: rgb(232,74,95);" (click)="deleteReview(review)"></i>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <pagination-controls class="review-pagination-controls" (pageChange)="p = $event"></pagination-controls>
+    
+    <div class="new-review-form-background" *ngIf="!addFormHidden">
+        <div class="new-review-form-container">
+            <img src="../../../assets/images/close.png" (click)="toggleAddReviewForm()">
+            <form (keyup.enter)="addNewReview()" [formGroup]="addForm" class="form-control-group new-form" novalidate>
+                <div class="form-control-group">
+                    <label for="movie">Movie</label>
+                    <select formControlName="movieId" class="form-select" id="movie">
+                        <option *ngFor="let movie of movies" [ngValue]="movie.movieId">{{movie.movieName}}</option>
+                    </select>
+                    <div class="errors" *ngIf="(!addForm.controls['movieId'].valid && addForm.controls['movieId'].touched || addForm.controls['movieId'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['movieId'].errors?.['required']" style="color: red;">
+                            Movie name required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Review Author:</label>
+                    <input formControlName="reviewAuthor" class="form-control" placeholder="Ex: John Lee">
+                    <div class="errors" *ngIf="(!addForm.controls['reviewAuthor'].valid && addForm.controls['reviewAuthor'].touched || addForm.controls['reviewAuthor'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['reviewAuthor'].errors?.['required']" style="color: red;">
+                            Review author required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Rating:</label>
+                    <input formControlName="rating" class="form-control" placeholder="Ex: 4.3">
+                    <div class="errors" *ngIf="(!addForm.controls['rating'].valid && addForm.controls['rating'].touched || addForm.controls['rating'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['rating'].errors?.['required']" style="color: red;">
+                            Rating required
+                        </div>
+                        <div [hidden]="!addForm.controls['rating'].errors?.['pattern']" style="color: red;">
+                            Invalid rating
+                        </div>
+                        <div [hidden]="!addForm.controls['rating'].errors?.['max']" style="color: red;">
+                            Rating must be between 0.0 and 5.0
+                        </div>
+                        <div [hidden]="!addForm.controls['rating'].errors?.['min']" style="color: red;">
+                            Rating must be between 0.0 and 5.0
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Date of Review:</label>
+                    <input formControlName="dateOfReview" type="date" class="form-control">
+                    <div class="errors" *ngIf="(!addForm.controls['dateOfReview'].valid && addForm.controls['dateOfReview'].touched || addForm.controls['dateOfReview'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['dateOfReview'].errors?.['required']" style="color: red;">
+                            Date of Review required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label>Review Content:</label>
+                    <textarea formControlName="reviewContent" type="text" class="form-control review-content-textbox"></textarea>
+                    <div class="errors" *ngIf="(!addForm.controls['reviewContent'].valid && addForm.controls['reviewContent'].touched || addForm.controls['reviewContent'].dirty) || addFormSubmitted">
+                        <div [hidden]="!addForm.controls['reviewContent'].errors?.['required']" style="color: red;">
+                            Review content required
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success" (click)="addNewReview()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="edit-review-form-background" *ngIf="!editFormHidden">
+        <div class="edit-review-form-container">
+            <img src="../../../assets/images/close.png" (click)="toggleEditReviewForm()">
+            <form (keyup.enter)="saveEditedReview()" [formGroup]="editForm" class="form-control-group edit-form" novalidate>
+                <div class="form-control-group">
+                    <label for="reviewAuthor">Review Author:</label>
+                    <input formControlName="reviewAuthor" class="form-control" id="reviewAuthor" placeholder="Ex: John Lee">
+                    <div class="errors" *ngIf="(!editForm.controls['reviewAuthor'].valid && editForm.controls['reviewAuthor'].touched || editForm.controls['reviewAuthor'].dirty) || editFormSubmitted">
+                        <div [hidden]="!editForm.controls['reviewAuthor'].errors?.['required']" style="color: red;">
+                            Review author required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="rating">Rating:</label>
+                    <input formControlName="rating" class="form-control" id="rating" placeholder="Ex: 4.3">
+                    <div class="errors" *ngIf="(!editForm.controls['rating'].valid && editForm.controls['rating'].touched || editForm.controls['rating'].dirty) || editFormSubmitted">
+                        <div [hidden]="!editForm.controls['rating'].errors?.['required']" style="color: red;">
+                            Rating required
+                        </div>
+                        <div [hidden]="!editForm.controls['rating'].errors?.['pattern']" style="color: red;">
+                            Invalid rating
+                        </div>
+                        <div [hidden]="!editForm.controls['rating'].errors?.['max']" style="color: red;">
+                            Rating must be between 0.0 and 5.0
+                        </div>
+                        <div [hidden]="!editForm.controls['rating'].errors?.['min']" style="color: red;">
+                            Rating must be between 0.0 and 5.0
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="dateOfReview">Date of Review:</label>
+                    <input formControlName="dateOfReview" type="date" class="form-control" id="dateOfReview" value="06/01/2022">
+                    <div class="errors" *ngIf="(!editForm.controls['dateOfReview'].valid && editForm.controls['dateOfReview'].touched || editForm.controls['dateOfReview'].dirty) || editFormSubmitted">
+                        <div [hidden]="!editForm.controls['dateOfReview'].errors?.['required']" style="color: red;">
+                            Date of Review required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-group">
+                    <label for="review-content">Review Content:</label>
+                    <textarea formControlName="reviewContent" type="text" class="form-control review-content-textbox" id="review-content"></textarea>
+                    <div class="errors" *ngIf="(!editForm.controls['reviewContent'].valid && editForm.controls['reviewContent'].touched || editForm.controls['reviewContent'].dirty) || editFormSubmitted">
+                        <div [hidden]="!editForm.controls['reviewContent'].errors?.['required']" style="color: red;">
+                            Review content required
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success" (click)="saveEditedReview()">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

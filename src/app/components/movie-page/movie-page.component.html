@@ -1,0 +1,41 @@
+<div class="movie-page-background">
+    <div *ngIf="movie" class="movie-page-container">
+        <div class="movie-image-container">
+            <img src="{{movie.imgUrl}}">
+        </div>
+        <div *ngIf="!toggleViewReviews" class="movie-details-container">
+            <h1 class="movie-name">{{movie.movieName}}</h1>
+            <div class="actors">
+                <p class="movie-details-header">Actors: </p>
+                <div *ngFor="let actor of actors" (click)="openActorPage(actor)">
+                    {{actor.actorFirstName}} {{actor.actorLastName}}
+                </div>
+            </div>
+            <div class="review-summary-header">
+                <p class="movie-details-header review-header" (click)="toggleReviews()">Reviews: {{rating | number: '1.1-1'}} &#9733; <span style="color:rgb(232,74,95); text-decoration:underline; font-weight: normal;">{{movie.reviews.length}} reviews</span></p>
+                <div class="review-summary" *ngFor="let review of reviews">
+                    <p>{{review.reviewAuthor}}</p>
+                    <p>{{review.rating}} &#9733;</p>
+                    <p>{{review.dateOfReview | date:'dd MMM YYYY'}}</p>
+                </div>
+            </div>
+            <div class="movie-details-header">Year of Release: {{movie.yearOfRelease}}</div>
+            <div class="movie-details-header">Rental: {{movie.rentalCost| currency}} /month</div>
+        </div>
+        <div *ngIf="toggleViewReviews" class="movie-reviews-containers">
+            <div (click)="toggleReviews()" class="back-to-details-button">
+                <i class="bi-unindent" style="font-size: 2rem"></i>
+            </div>
+            <div class="movie-reviews">
+                <h1 class="movie-name">{{movie.movieName}}</h1>
+                <div class="review" *ngFor="let review of movie.reviews">
+                    <p>Author: {{review.reviewAuthor}}</p>
+                    <p>Rating: {{review.rating | number: '1.1-1'}} &#9733;</p>
+                    <p>Date: {{review.dateOfReview | date: 'dd MMM yyyy'}}</p>
+                    <p>Review: </p>
+                    <p class="review-content">{{review.reviewContent}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

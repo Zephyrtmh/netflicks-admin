@@ -1,0 +1,21 @@
+<div class="admin-dashboard-container">
+    <div class="admin-dashboard">
+        <div class="admin-dashboard-nav-container">
+            <nav>
+                <ul class="admin-dashboard-nav-list">
+                    <li (click)="selectNav('users')" [ngStyle]= "selected['users'] ? {'border-bottom': 'solid 2px rgb(232,74,95)', 'font-weight': 'bold'} : {'border-bottom': ''}">Users</li>
+                    <li (click)="selectNav('movies')" [ngStyle]= "selected['movies'] ? {'border-bottom': 'solid 2px rgb(232,74,95)', 'font-weight': 'bold'} : {'border-bottom': ''}">Movies</li>
+                    <li (click)="selectNav('actors')" [ngStyle]= "selected['actors'] ? {'border-bottom': 'solid 2px rgb(232,74,95)', 'font-weight': 'bold'} : {'border-bottom': ''}">Actors</li>
+                    <li (click)="selectNav('reviews')" [ngStyle]= "selected['reviews'] ? {'border-bottom': 'solid 2px rgb(232,74,95)', 'font-weight': 'bold'} : {'border-bottom': ''}">Reviews</li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <app-user-management *ngIf="selected['users']"></app-user-management>
+            <app-movie-management *ngIf="selected['movies']"></app-movie-management>
+            <app-actor-managment *ngIf="selected['actors']"></app-actor-managment>
+            <app-review-management *ngIf="selected['reviews']"></app-review-management>
+            
+        </div>
+    </div>
+</div>

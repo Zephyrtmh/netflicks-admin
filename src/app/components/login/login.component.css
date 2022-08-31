@@ -1,0 +1,53 @@
+.container {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(53, 53, 53, 1); */
+    color: white;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(53, 53, 53, 1);
+    padding: 50px 50px 50px 50px;
+    margin-bottom: 150px;
+    width: 500px;
+    min-height: 400px;
+}
+
+.form-container h1 {
+    align-self: center;
+}
+
+form > input{
+    width: 400px;
+    margin: 10px 0 10px 0;
+}
+
+.form-control-group {
+    margin-bottom: 30px;
+}
+
+.errors {
+    margin-top: 10px;
+}
+
+.btn-success {
+    /* float: right; */
+    align-self: flex-start;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.form-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
