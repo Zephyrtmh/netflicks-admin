@@ -42,7 +42,7 @@
     
     <div class="new-actor-form-background" *ngIf="!addFormHidden">
         <div class="new-actor-form-container">
-            <img src="../../../assets/images/close.png" (click)="toggleAddActorForm()">
+            <img src="/../../../assets/images/close.png" (click)="toggleAddActorForm()">
             <form (keyup.enter)="addNewActor()" [formGroup]="addForm" class="form-control-group new-form">
                 <div class="form-control-group">
                     <label for="movie">Movie Name:</label>
@@ -109,7 +109,7 @@
 
     <div class="edit-actor-form-background" *ngIf="!editFormHidden">
         <div class="edit-actor-form-container">
-            <img src="../../../assets/images/close.png" (click)="toggleEditActorForm()">
+            <img src="/../../../assets/images/close.png" (click)="toggleEditActorForm()">
             <form (keyup.enter)="saveEditedActor()" [formGroup]="editForm" class="form-control-group edit-form">
                 <div class="form-control-group">
                     <label>Actor firstname:</label>
@@ -164,7 +164,7 @@
 
     <div class="add-existing-actor-form-background" *ngIf="!addExistingActorFormHidden">
         <div class="add-existing-actor-form-container">
-            <img src="../../../assets/images/close.png" (click)="toggleAddExistingActorForm()">
+            <img src="/../../../assets/images/close.png" (click)="toggleAddExistingActorForm()">
             <h1 style="display: inline;">Add Actor <span style="color: red;">{{existingActorToAdd.actorFirstName}} {{existingActorToAdd.actorLastName}}</span> to...</h1>
             <form (keyup.enter)="addExistingActor()" [formGroup]="addExistingActorForm" class="form-control-group add-existing-actor-form">
                 <div class="form-control-group">
