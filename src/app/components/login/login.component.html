@@ -32,6 +32,9 @@
         <div class="form-bottom">
             <button class="btn btn-success btn-submit" (click) ="onLoginSubmit()">Submit</button>
             <a style="text-decoration: underline; color:white;" routerLink="../register">Don't have an account? Register</a>
+            <div *ngFor="let user of users">
+                <p>{{user.username}}</p>
+            </div>
         </div>
     </div>
 </div>

@@ -7,7 +7,7 @@ import { Movie } from '../models/movie.model';
   providedIn: 'root'
 })
 export class ActorService {
-  baseUrl = "http://localhost:8080/actor"
+  baseUrl = "http://netflicksbackend-env.eba-sgzsyqmb.ap-southeast-1.elasticbeanstalk.com/actor"
   constructor(private httpClient: HttpClient) { }
 
   getActorsByMovieId(movie: Movie) {

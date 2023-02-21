@@ -7,7 +7,7 @@ import { Review } from '../models/review.model';
 })
 export class ReviewService {
 
-  baseUrl: String = "http://localhost:8080/review"
+  baseUrl: String = "http://http://netflicksbackend-env.eba-sgzsyqmb.ap-southeast-1.elasticbeanstalk.com/review"
 
   constructor(private httpClient: HttpClient) { }
 

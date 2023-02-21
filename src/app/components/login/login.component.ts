@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { Movie } from 'src/app/models/movie.model';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   incorrectPassword: boolean = false;
+  users: User[];
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) {} 
 
   ngOnInit(): void {
@@ -19,6 +21,10 @@ export class LoginComponent implements OnInit {
       username: ["", [Validators.email, Validators.required]],
       password: ["", Validators.required],
     })
+
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
   }
 
   onLoginSubmit() {

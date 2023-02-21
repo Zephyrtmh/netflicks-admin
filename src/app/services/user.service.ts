@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl: String = "http://localhost:8080/user";
-
+  baseUrl: String = "http://netflicksbackend-env.eba-sgzsyqmb.ap-southeast-1.elasticbeanstalk.com/user";
+  
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   loginUser(user: User) {
